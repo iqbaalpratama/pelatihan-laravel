@@ -20,6 +20,10 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('input-form-component', require('./components/InputFormComponent.vue').default);
+Vue.component('to-do-component', require('./components/ToDoComponent.vue').default);
+Vue.component('button-component', require('./components/ButtonComponent.vue').default);
+Vue.component('list-component', require('./components/ListComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -11320,3 +11320,8 @@ textarea.form-control-lg {
   vertical-align: middle;
   cursor: pointer;
 }
+
+.main-page {
+  margin-left: 15px;
+  margin-right: 15px;
+}

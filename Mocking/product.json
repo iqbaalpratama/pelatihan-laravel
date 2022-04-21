@@ -1,0 +1,23 @@
+[
+  {
+    "stock": 100  ,
+    "name": "Mie Sedap",
+    "price": 15000,
+    "description": "Mie paling sedaaappp!!",
+    "id": 1
+  },
+  {
+    "stock": 50,
+    "name": "Minyak Curah",
+    "price": 40000,
+    "description": "Minyak hasil penimbunan",
+    "id": 2
+  },
+  {
+    "stock": 30,
+    "name": "Mentega",
+    "price": 5000,
+    "description": "Sangat enak untuk pelengkap masakan",
+    "id": 3
+  }
+]

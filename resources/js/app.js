@@ -4,6 +4,10 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+ import VueRouter from "vue-router";
+ import {routes} from './routes';
+ import store from './store'
+
 require('./bootstrap');
 
 window.Vue = require('vue').default;
@@ -18,19 +22,26 @@ window.Vue = require('vue').default;
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('input-form-component', require('./components/InputFormComponent.vue').default);
 Vue.component('to-do-component', require('./components/ToDoComponent.vue').default);
 Vue.component('button-component', require('./components/ButtonComponent.vue').default);
 Vue.component('list-component', require('./components/ListComponent.vue').default);
-
+Vue.component('product-component', require('./components/ProductComponent.vue').default);
+Vue.component('cart-component', require('./components/CartComponent.vue').default);
+Vue.component('header-component', require('./components/HeaderComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+Vue.use(VueRouter);
+const router = new VueRouter({
+    mode: 'history',
+    routes
+});
 const app = new Vue({
     el: '#app',
+    router,
+    store
 });

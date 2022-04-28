@@ -63,6 +63,17 @@ return [
             ]) : [],
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'host' => env('MONGO_DB_HOST', '127.0.0.1'),
+            'port' => env('MONGO_DB_PORT', 27017),
+            'database' => env('MONGO_DB_DATABASE', 'homestead'),
+            'username' => env('MONGO_DB_USERNAME', 'homestead'),
+            'password' => env('MONGO_DB_PASSWORD', 'secret'),
+            'options' => [
+            ],
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
@@ -90,6 +101,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
+
 
     ],
 

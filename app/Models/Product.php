@@ -9,11 +9,11 @@ class Product extends Model
     protected $connection = 'mongodb';
     protected $collection = 'product';
 
-    protected $fillable = ['name', 'stock', 'price', 'description' ];
+    protected $fillable = ['name', 'stock', 'price', 'description', 'sold'];
 
     public function carts()
     {
-        return $this->embedsMany(Cart::class, 'product_id');
+        return $this->hasMany(Cart::class, 'product_id', '_id');
     }
 
 }

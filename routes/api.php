@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,6 +24,10 @@ Route::delete('deleteProduct/{id}', 'App\Http\Controllers\ProductController@dele
 Route::post('addProduct', 'App\Http\Controllers\ProductController@addProduct')->middleware('auth:api');
 Route::post('checkout', 'App\Http\Controllers\ProductController@checkout');
 Route::post('register', 'App\Http\Controllers\AuthController@register');
+Route::get('getCart', 'App\Http\Controllers\CartController@getCart');
+Route::post('addToCart', 'App\Http\Controllers\CartController@addToCart');
+Route::delete('deleteFromCart/{id}', 'App\Http\Controllers\CartController@deleteCart');
+Route::get('checkout', 'App\Http\Controllers\CartController@checkout');
 
 Route::group([
     'prefix' => 'auth'

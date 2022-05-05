@@ -5463,11 +5463,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteFromCart: function deleteFromCart(data) {
       this.$store.dispatch('deleteFromCart', data);
     },
-    checkout: function checkout(data) {
-      alert('The money you should paid is Rp. ' + this.cart.totalPrice);
+    checkout: function checkout() {
+      this.$store.dispatch('checkout');
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    this.$store.dispatch('getCart');
+  }
 });
 
 /***/ }),
@@ -5710,7 +5712,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)({
     productList: 'getProducts',
-    totalProduct: 'getTotalProduct'
+    totalProduct: 'getTotalProduct',
+    total: 'getTotalCart'
   })),
   methods: {
     addToCart: function addToCart(data) {
@@ -5963,43 +5966,15 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
       state.products = _toConsumableArray(payload);
     },
     UPDATE_CART: function UPDATE_CART(state, payload) {
-      var flag = false;
-      state.carts.forEach(function (value) {
-        if (value.product_id === payload.id) {
-          flag = true;
-          value.quantity += 1;
-          return;
-        }
+      state.carts = _toConsumableArray(payload);
+      var totalPrice = 0;
+      var quantity = 0;
+      payload.forEach(function (value) {
+        totalPrice += value.product.price * value.quantity;
+        quantity += value.quantity;
       });
-
-      if (!flag) {
-        var product = {
-          product_id: payload.id,
-          name: payload.name,
-          price: payload.price,
-          quantity: 1
-        };
-        state.carts.push(product);
-      }
-
-      state.totalCart += 1;
-      state.totalPrice += payload.price;
-    },
-    DELETE_PRODUCT_IN_CART: function DELETE_PRODUCT_IN_CART(state, payload) {
-      var totalprice = 0;
-      var totalquantity = 0;
-      var index_of_array;
-      state.carts.forEach(function (value, index) {
-        if (value.product_id === payload.product_id) {
-          totalprice = value.quantity * value.price;
-          totalquantity = value.quantity;
-          index_of_array = index;
-          return;
-        }
-      });
-      state.carts.splice(index_of_array, 1);
-      state.totalPrice -= totalprice;
-      state.totalCart -= totalquantity;
+      state.totalCart = quantity;
+      state.totalPrice = totalPrice;
     }
   },
   actions: {
@@ -6009,11 +5984,31 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
         context.commit('UPDATE_PRODUCT', response.data);
       });
     },
+    getCart: function getCart(context) {
+      var url = '/api/getCart';
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+        context.commit('UPDATE_CART', response.data);
+      });
+    },
     addToCart: function addToCart(context, payload) {
-      context.commit('UPDATE_CART', payload);
+      console.log(payload);
+      var url = '/api/addToCart';
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, payload).then(function (response) {
+        console.log("Masuk");
+        context.dispatch('getCart');
+      });
     },
     deleteFromCart: function deleteFromCart(context, payload) {
-      context.commit('DELETE_PRODUCT_IN_CART', payload);
+      var url = '/api/deleteFromCart/' + payload;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
+        context.dispatch('getCart');
+      });
+    },
+    checkout: function checkout(context) {
+      var url = '/api/checkout';
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+        context.dispatch('getCart');
+      });
     }
   },
   modules: {}
@@ -29106,7 +29101,7 @@ var render = function () {
               _c("td", [
                 _vm._v(
                   "\n                    " +
-                    _vm._s(cart.name) +
+                    _vm._s(cart.product.name) +
                     "\n                "
                 ),
               ]),
@@ -29114,7 +29109,7 @@ var render = function () {
               _c("td", [
                 _vm._v(
                   "\n                    " +
-                    _vm._s(cart.price) +
+                    _vm._s(cart.product.price) +
                     "\n                "
                 ),
               ]),
@@ -29134,7 +29129,7 @@ var render = function () {
                     attrs: { text: "Delete" },
                     on: {
                       emitClick: function ($event) {
-                        return _vm.deleteFromCart(cart)
+                        return _vm.deleteFromCart(cart._id)
                       },
                     },
                   }),
@@ -29164,7 +29159,7 @@ var render = function () {
           attrs: { text: "Checkout" },
           on: {
             emitClick: function ($event) {
-              return _vm.checkout(_vm.cart.items)
+              return _vm.checkout()
             },
           },
         }),
@@ -29518,7 +29513,7 @@ var render = function () {
                   attrs: { text: "Add to Cart" },
                   on: {
                     emitClick: function ($event) {
-                      return _vm.addToCart(product)
+                      return _vm.addToCart({ _id: product._id })
                     },
                   },
                 }),

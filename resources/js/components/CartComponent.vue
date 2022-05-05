@@ -13,16 +13,16 @@
             <tbody>
                 <tr v-for="(cart, index) in cart.items" :key="index">
                     <td>
-                        {{ cart.name }}
+                        {{ cart.product.name }}
                     </td>
                     <td>
-                        {{ cart.price }}
+                        {{ cart.product.price }}
                     </td>
                     <td>
                         {{ cart.quantity }}
                     </td>
                     <td>
-                        <button-component @emitClick="deleteFromCart(cart)" text="Delete"/>
+                        <button-component @emitClick="deleteFromCart(cart._id)" text="Delete"/>
                     </td>
                 </tr>
                 <tr>
@@ -32,7 +32,7 @@
             </tbody>
         </table>
         <div class="button-checkout">
-            <button-component @emitClick="checkout(cart.items)" text="Checkout"/>
+            <button-component @emitClick="checkout()" text="Checkout"/>
         </div>
     </div>
 </template>
@@ -57,11 +57,12 @@ export default {
         deleteFromCart(data) {
             this.$store.dispatch('deleteFromCart', data);
         },
-        checkout(data) {
-            alert('The money you should paid is Rp. '+ this.cart.totalPrice)
+        checkout() {
+            this.$store.dispatch('checkout');
         },
     },
     mounted() {
+        this.$store.dispatch('getCart');
     },
 }
 </script>

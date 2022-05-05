@@ -20,8 +20,7 @@ class CartService{
 
     public function addCart($data){
         $validator = Validator::make($data, [
-            'product_id' => 'required',
-            'quantity' => 'required|numeric',
+            '_id' => 'required'
         ]);
         if($validator->fails()){
             throw new InvalidArgumentException($validator->errors()->first());
@@ -32,6 +31,10 @@ class CartService{
 
     public function deleteCart($id){
         $cart = $this->cartRepository->delete($id);
+        return $cart;
+    }
+    public function checkout(){
+        $cart = $this->cartRepository->checkout();
         return $cart;
     }
 }

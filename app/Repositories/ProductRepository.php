@@ -24,6 +24,7 @@ class ProductRepository{
         $newProduct->stock = $data['stock'];
         $newProduct->price = $data['price'];
         $newProduct->description = $data['description'];
+        $newProduct->sold = 0;
         $newProduct->save();
         return $newProduct->fresh();
     }

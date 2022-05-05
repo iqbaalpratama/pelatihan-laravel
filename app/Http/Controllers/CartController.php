@@ -26,7 +26,7 @@ class CartController extends Controller
     }
 
     public function addToCart(Request $request){
-        $data= $request->only(['product_id', 'quantity']);
+        $data= $request->only(['_id']);
         try {
             $product = $this->cartService->addCart($data);
         } catch (Exception $e) {
@@ -46,6 +46,16 @@ class CartController extends Controller
         }
         return response()->json(['error' => 'Gagal menghapus produk dalam cart'], 500);
 
+    }
+
+    public function checkout(){
+        try{
+            $data = $this->cartService->checkout();
+        }
+        catch(Exception $e){
+            return response()->json(['error'=> $e->getMessage()], 500);
+        }
+        return response()->json($data);
     }
 
 }

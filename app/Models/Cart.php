@@ -12,6 +12,6 @@ class Cart extends Model
     protected $fillable = ['product_id', 'quantity', 'is_checkout'];
     public function product()
     {
-        return $this->embedsOne(Product::class);
+        return $this->belongsTo(Product::class, 'product_id', '_id');
     }
 }

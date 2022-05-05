@@ -27,7 +27,7 @@
                         Rp. {{ product.price }}
                     </td>
                     <td>
-                        <button-component @emitClick="addToCart(product)" text="Add to Cart"/>
+                        <button-component @emitClick="addToCart({_id: product._id})" text="Add to Cart"/>
                     </td>
                 </tr>
             </tbody>
@@ -48,7 +48,8 @@ export default {
     computed: {
         ...mapGetters({
             productList: 'getProducts',
-            totalProduct: 'getTotalProduct'
+            totalProduct: 'getTotalProduct',
+            total: 'getTotalCart'
         })
     },
     methods: {
